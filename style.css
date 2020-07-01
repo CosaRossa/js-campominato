@@ -9,19 +9,20 @@ body {
   text-align: center;
   background-image: url('sfondo.jpeg');
   background-size: cover;
+  background-attachment: fixed;
 }
 
 h1 {
-  margin-top: 5%;
+  margin: 5% 0 1%;
 }
 
 #campo {
   width: 30vw;
-  height: 30vw;
   display: flex;
   flex-flow: row wrap;
   margin-left: 50%;
   margin-top: 3%;
+  margin-bottom: 2%;
   transform: translateX(-50%);
   box-shadow: 2px 2px 10px black;
   background-color: rgba(200, 200, 200, 0.7);
@@ -29,9 +30,16 @@ h1 {
 }
 
 .square {
-  width: 10%;
-  height: 10%;
+  width: 43px;
+  height: 43px;
   border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square span {
+  display: none;
 }
 
 .green {
@@ -40,4 +48,15 @@ h1 {
 
 .red {
   background-color: rgb(245, 62, 49);
+}
+
+.square span.show {
+  display: inline;
+}
+
+#result {
+  color: #fff;
+  font-size: 25px;
+  text-shadow: 2px 2px 3px #000;
+  /* margin-bottom: 3%; */
 }

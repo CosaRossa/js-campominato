@@ -1,7 +1,7 @@
 // campo Fiorito
 var campo = document.getElementById("campo");
 for (var i = 1; i <= 100; i++) {
-  campo.innerHTML += "<div class=\"square\" id=\"" + i + "\">" + "</div>"
+  campo.innerHTML += "<div class=\"square\" id=\"" + i + "\">" + "<span id=\"pickme-" + i + "\">" + i + "</span>" + "</div>"
 }
 
 // Seleziona difficoltà
@@ -10,6 +10,8 @@ btn.addEventListener("click", function () {
   var difficolta = document.getElementById("difficolta").value;
   var maxRange = 0;
 
+  campo.innerHTML = "";
+
   if (difficolta == 0) {
     maxRange = 100;
   } else if (difficolta == 1) {
@@ -17,6 +19,8 @@ btn.addEventListener("click", function () {
   } else {
     maxRange = 50;
   }
+
+  makeGriglia(campo, maxRange);
 
   // Il computer deve generare 16 numeri casuali tra 1 e 100.
   // I numeri non possono essere duplicati
@@ -41,34 +45,43 @@ btn.addEventListener("click", function () {
   var numUserArray = [];
   var punteggio = 0;
   var squareColor = "";
+  var numSquare = "";
   var maxTentativi = maxRange - maxFiori;
-  for (var i = 1; i <= maxTentativi ; i++) {
+
+  var i = 1;
+  var promptAlternativo = "";
+  while (i <= maxTentativi) {
     numUser = parseInt(window.prompt("Inserisci un numero compreso tra 1 e" + " " + maxRange));
     squareColor = document.getElementById(numUser);
+    numSquare = document.getElementById("pickme-" + numUser);
 
      if ((isNaN(numUser)) || (numUser > maxRange)) {
-      console.log("Inserisci un numero compreso tra 1 e", maxRange, "!");
+      promptAlternativo = window.prompt("HO DETTO INSERISCI UN NUMERO DA 1 A " + maxRange);
       i--;
     } else if (randomCPU.indexOf(numUser) != -1) {
-      console.log("Hai perso!");
       squareColor.className += " red";
+      numSquare.className = "show";
       i = maxTentativi + 1;
     } else if (numUserArray.indexOf(numUser) == -1) {
       numUserArray.push(numUser);
       squareColor.className += " green";
+      numSquare.className = "show";
       punteggio++;
     } else if (numUserArray.indexOf(numUser) != -1) {
-      console.log("Già è stato inserito");
+      promptAlternativo = window.prompt("Questo numero è già stato inserito");
       i--;
     }
+
+    i++;
   }
   console.log(numUserArray);
 
   // Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
+  var result = document.getElementById("result");
   if (punteggio == maxTentativi) {
-    console.log("Il tuo punteggio è:", punteggio, "Hai raggiunto il punteggio massimo!");
+    result.innerHTML = "Il tuo punteggio è: " + punteggio + "Complimenti! Hai raggiunto il punteggio massimo!";
   } else {
-    console.log("Il tuo punteggio è:", punteggio);
+    result.innerHTML = "Il tuo punteggio è: " + punteggio;
   }
 
 });
@@ -78,4 +91,10 @@ function randomNum(max, min) {
   max = Math.floor(max);
   var result = Math.floor(Math.random()*(max - min + 1)) + min;
   return result;
+}
+
+function makeGriglia(griglia, max) {
+  for (var i = 1; i <= max; i++) {
+    griglia.innerHTML += "<div class=\"square\" id=\"" + i + "\">" + "<span id=\"pickme-" + i + "\">" + i + "</span>" + "</div>"
+  }
 }
